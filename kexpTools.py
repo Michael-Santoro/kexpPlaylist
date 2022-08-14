@@ -71,7 +71,7 @@ class kexp:
                     showsDict['start_time'].append(entry['start_time'])
         return pd.DataFrame(showsDict)
 
-    def getSongsHour(self, year, month, day, hour):
+    def getSongsHour(self, year, month, day, hour, t_offset):
         '''function gets all the songs played that hour'''
         playsDict = {'airdate':[],
                      'song':[],
@@ -80,31 +80,22 @@ class kexp:
                      'labels':[],
                      'release_date':[],
                      'is_live':[]}
-        rootAddress = f'https://api.kexp.org/v2/shows/?airdate_after={year}-{str(month).zfill(2)}-{str(day).zfill(2)}T{str(hour).zfill(2)}:00:00&airdate_before={year}-{str(month).zfill(2)}-{str(day).zfill(2)}T{str(hour+1).zfill(2)}:00:00'
-        print(f'Root Address: {rootAddress}')
-        plays = requests.get(rootAddress)
-        pages = 20*round(plays.json()['count']/20)
-        print(f'pages: {pages}')
-        if pages == 0:
-            address = rootAddress
-            print(f'fetching: {address}')
-            plays_resp = requests.get(address)
-            for entry in plays_resp.json()['results']:
-                if entry.get('play_type') != None:
-                    playsDict['airdate'].append(entry['airdate'])
-                    playsDict['song'].append(entry['song'])
-                    playsDict['artist'].append(entry['artist'])
-                    playsDict['album'].append(entry['album'])
-                    playsDict['labels'].append(entry['labels'])
-                    playsDict['release_date'].append(entry['release_date'])
-                    playsDict['is_live'].append(entry['is_live'])
-        else:
-            for i in range(0,pages,20):
-                address = rootAddress + f'&offset={i}'
-                print(f'fetching: {address}')
-                plays_resp = requests.get(address)
-                for entry in plays_resp.json()['results']:
-                    if entry.get('play_type') != None:
+
+        url = 'https://api.kexp.org/v2/plays/'
+        params = {'airdate_after':f'{year}-{str(month).zfill(2)}-{str(day).zfill(2)}T{str(hour).zfill(2)}:00:00-{str(t_offset).zfill(2)}:00',
+                'airdate_before':f'{year}-{str(month).zfill(2)}-{str(day).zfill(2)}T{str(hour+1).zfill(2)}:00:00-{str(t_offset).zfill(2)}:00',
+                'offset':0}             
+        print(f'URL Address: {url}')
+        for i in range(0,120,20):
+            params['offset'] = i
+            print(f'fetching: {params}')
+            plays = requests.get(url = url, params = params)
+            results = plays.json()['results']
+            if results:
+                for entry in results:
+                    print(entry)
+                    print(entry['play_type'] != 'airbreak')
+                    if entry['play_type'] != 'airbreak':
                         playsDict['airdate'].append(entry['airdate'])
                         playsDict['song'].append(entry['song'])
                         playsDict['artist'].append(entry['artist'])
@@ -112,4 +103,7 @@ class kexp:
                         playsDict['labels'].append(entry['labels'])
                         playsDict['release_date'].append(entry['release_date'])
                         playsDict['is_live'].append(entry['is_live'])
+            else:
+                break
+            print(playsDict)
         return pd.DataFrame(playsDict)
