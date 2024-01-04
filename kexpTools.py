@@ -10,8 +10,8 @@ import pandas as pd
 class kexp:
     '''class for helper function tools for working with the kexp api interface'''
     def __init__(self):
-        self.hosts = pd.read_csv('data/djData.csv')
-        self.programs = pd.read_csv('data/programData.csv')
+        self.hosts = pd.read_csv('data/djData.csv',index_col=0)
+        self.programs = pd.read_csv('data/programData.csv',index_col=0)
         self.rootAPI = 'https://api.kexp.org/v2/'
 
     def getShowsYear(self, year):
