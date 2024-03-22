@@ -2,3 +2,5 @@ kexpTools.py
 apikey.py
 app.py
 __pycache__/*
+*.pyc
+*creds*

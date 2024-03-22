@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS plays (
                 id INT PRIMARY KEY,
                 uri VARCHAR(255) UNIQUE NOT NULL,
-                airdate TIMESTAMP NOT NUll,
-                show INT NOT NULL,
+                airdate TIMESTAMP NOT NULL,
+                show_id INT NOT NULL,
                 song VARCHAR(255) NOT NULL,
                 track_id VARCHAR(255) NOT NULL,
                 recording_id VARCHAR(255) NOT NULL,
@@ -14,5 +14,4 @@ CREATE TABLE IF NOT EXISTS plays (
                 is_local BOOL,
                 is_request BOOL,
                 is_live BOOL,
-                comment TEXT,
-            );
+                comment TEXT);

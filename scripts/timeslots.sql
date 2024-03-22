@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS plays (
+CREATE TABLE IF NOT EXISTS timeslots (
                 id INT PRIMARY KEY,
                 uri VARCHAR(255) UNIQUE NOT NULL,
                 program INT NOT NULL,
@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS plays (
                 end_date TIME,
                 start_time TIME,
                 end_time TIME,
-                duration TIME,
+                duration TIME
             );
