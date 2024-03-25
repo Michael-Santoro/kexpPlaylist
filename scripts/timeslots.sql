@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS timeslots (
                 program_tags VARCHAR(255),
                 weekday INT,
                 start_date DATE,
-                end_date TIME,
+                end_date DATE,
                 start_time TIME,
                 end_time TIME,
                 duration TIME

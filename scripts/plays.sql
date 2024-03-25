@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS plays (
                 airdate TIMESTAMP NOT NULL,
                 show_id INT NOT NULL,
                 song VARCHAR(255) NOT NULL,
-                track_id VARCHAR(255) NOT NULL,
+                track_id VARCHAR(255),
                 recording_id VARCHAR(255) NOT NULL,
                 artist VARCHAR(255) NOT NULL,
                 album VARCHAR(255) NOT NULL,
